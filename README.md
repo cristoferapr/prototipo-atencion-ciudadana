@@ -1,8 +1,4 @@
-Claro, aquí tienes un ejemplo de un README para tu proyecto en GitHub:
-
----
-
-# Proyecto de Sugerencias con Flask y ReactJS
+# Prototipo de Sugerencias con Flask y ReactJS
 
 Este proyecto es un prototipo de una aplicación de sugerencias desarrollada con Flask para el backend y ReactJS para el frontend.
 
