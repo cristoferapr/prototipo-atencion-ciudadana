@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../css/Header.css'; // Importa el archivo CSS personalizado
-import logo from '../img/logo.webp'; // Asegúrate de que el logo esté en la ubicación correcta
+import '../css/Header.css'; 
+import logo from '../img/logo.webp'; 
 import LoginForm from './LoginForm';
 
 const Header = () => {
