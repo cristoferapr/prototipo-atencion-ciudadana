@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Register.css */
 .register-container {
     display: flex;
@@ -33,4 +34,41 @@
     background-color: #0056b3;
     border-color: #0056b3;
   }
+=======
+/* Register.css */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+  }
+  
+  .register-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .form-label {
+    font-weight: bold;
+  }
+  
+  .form-control {
+    border-radius: 0.25rem;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+>>>>>>> 82b4dcb0324aa523db652c796e0eefa44c60c327
   

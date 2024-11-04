@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .logo {
     height: 60px;
   }
@@ -26,4 +27,34 @@
       margin-right: 0;
     }
   }
+=======
+.logo {
+    height: 60px;
+  }
+  
+  .navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-link {
+    margin-right: 15px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .nav-link:hover {
+    color: #007bff;
+  }
+  
+  @media (max-width: 991.98px) {
+    .navbar-nav {
+      text-align: center;
+      width: 100%;
+    }
+    .nav-item {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+>>>>>>> 82b4dcb0324aa523db652c796e0eefa44c60c327
   
