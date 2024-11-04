@@ -54,4 +54,3 @@ El propósito de esta aplicación es permitir a los usuarios enviar sugerencias 
 1. Navega a `http://localhost:3000` en tu navegador para ver la aplicación de React en funcionamiento.
 2. Usa el formulario de inicio de sesión para autenticarte.
 3. Envía tus sugerencias o reclamaciones a través del formulario correspondiente.
->>>>>>> 82b4dcb0324aa523db652c796e0eefa44c60c327
