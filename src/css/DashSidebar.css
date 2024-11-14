@@ -1,0 +1,61 @@
+/* Sidebar.css */
+
+/* Sidebar principal: oculto por defecto en pantallas pequeñas */
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100%); /* Oculto fuera de la pantalla en móviles */
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+  
+  /* Mostrar el sidebar cuando la clase 'open' está activa */
+  .sidebar.open {
+    transform: translateX(0); /* Visible cuando se hace clic en el menú en móviles */
+  }
+  
+  /* Botón para cerrar el sidebar en móviles */
+  .close-button {
+    background: none;
+    color: #fff;
+    font-size: 24px;
+    border: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  /* Espaciado para los elementos en el sidebar */
+  .sidebar h2 {
+    margin-bottom: 20px;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos específicos para pantallas grandes */
+  @media (min-width: 768px) {
+    .sidebar {
+      position: static; /* Fijo en su lugar */
+      transform: translateX(0); /* Siempre visible en pantallas grandes */
+    }
+  
+    /* Oculta el botón de cierre en pantallas grandes */
+    .close-button {
+      display: none;
+    }
+  }
+  

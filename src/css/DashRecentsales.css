@@ -1,0 +1,21 @@
+/* RecentSales.css */
+.recent-sales {
+    margin-top: 20px;
+  }
+  
+  .sale-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .sale-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sale-amount {
+    font-weight: bold;
+  }
+  

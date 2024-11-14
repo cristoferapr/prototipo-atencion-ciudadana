@@ -1,0 +1,67 @@
+.comment-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    background-color: #6a0dad;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  button:hover {
+    background-color: #5c0c9d;
+  }
+  
+  .map-container {
+    margin-top: 20px;
+  }
+  
+  .address-form {
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+  }
+  
+  .address-form input {
+    flex: 1;
+  }
+
+  .autocomplete-address {
+    margin-bottom: 15px;
+  }
+  
+  .autocomplete-address label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  
