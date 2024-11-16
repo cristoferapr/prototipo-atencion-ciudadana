@@ -1,15 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/DashList.css";
+import axios from "axios";
 
 const DashList = () => {
-  const initialRequests = Array.from({ length: 25 }, (_, index) => ({
-    id: index + 1,
-    date: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString(),
-    status: ["Pendiente", "Procesando", "Completado"][Math.floor(Math.random() * 3)],
-    category: ["Luminarias", "Quejas", "Consultas"][Math.floor(Math.random() * 3)],
-    description: `Description ${index + 1}`,
-  }));
-
+  const [requests, setRequests] = useState([]); // Cambiado de initialRequests
   const [descriptionFilter, setDescriptionFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState([]);
@@ -23,7 +17,30 @@ const DashList = () => {
   });
   const [showColumnMenu, setShowColumnMenu] = useState(false);
 
-  // Funcion para alternar visibilidad de columna
+  // Cargar comentarios desde el backend
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/allcomments");
+        const data = await response.json();
+        setRequests(
+          data.data.map((comment) => ({
+            id: comment.id,
+            date: new Date(comment.created_at).toLocaleDateString(),
+            status: "Pendiente",
+            category: comment.category,
+            description: comment.comment,
+          }))
+        );
+      } catch (error) {
+        console.error("Error al cargar los comentarios:", error);
+      }
+    };
+
+    fetchComments();
+  }, []);
+
+  // Función para alternar visibilidad de columna
   const toggleColumn = (column) => {
     setColumns((prevColumns) => ({
       ...prevColumns,
@@ -39,10 +56,14 @@ const DashList = () => {
   };
 
   // Filtros aplicados
-  const filteredRequests = initialRequests.filter((request) => {
-    const matchesDescription = request.description.toLowerCase().includes(descriptionFilter.toLowerCase());
-    const matchesStatus = statusFilter.length === 0 || statusFilter.includes(request.status);
-    const matchesCategory = categoryFilter.length === 0 || categoryFilter.includes(request.category);
+  const filteredRequests = requests.filter((request) => {
+    const matchesDescription = request.description
+      .toLowerCase()
+      .includes(descriptionFilter.toLowerCase());
+    const matchesStatus =
+      statusFilter.length === 0 || statusFilter.includes(request.status);
+    const matchesCategory =
+      categoryFilter.length === 0 || categoryFilter.includes(request.category);
     return matchesDescription && matchesStatus && matchesCategory;
   });
 
@@ -62,8 +83,15 @@ const DashList = () => {
 
         {/* Dropdown de estado */}
         <div className="filter-group">
-          <span className={`indicator ${statusFilter.length > 0 ? "active" : ""}`} />
-          <button onClick={() => setShowStatusDropdown(!showStatusDropdown)} className="dropdown-button">Estado</button>
+          <span
+            className={`indicator ${statusFilter.length > 0 ? "active" : ""}`}
+          />
+          <button
+            onClick={() => setShowStatusDropdown(!showStatusDropdown)}
+            className="dropdown-button"
+          >
+            Estado
+          </button>
           {showStatusDropdown && (
             <div className="dropdown-menu">
               {["Pendiente", "Procesando", "Completado"].map((status) => (
@@ -71,7 +99,9 @@ const DashList = () => {
                   <input
                     type="checkbox"
                     checked={statusFilter.includes(status)}
-                    onChange={() => toggleFilter(statusFilter, setStatusFilter, status)}
+                    onChange={() =>
+                      toggleFilter(statusFilter, setStatusFilter, status)
+                    }
                   />
                   {status}
                 </label>
@@ -82,8 +112,15 @@ const DashList = () => {
 
         {/* Dropdown de categoría */}
         <div className="filter-group">
-          <span className={`indicator ${categoryFilter.length > 0 ? "active" : ""}`} />
-          <button onClick={() => setShowCategoryDropdown(!showCategoryDropdown)} className="dropdown-button">Categoría</button>
+          <span
+            className={`indicator ${categoryFilter.length > 0 ? "active" : ""}`}
+          />
+          <button
+            onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+            className="dropdown-button"
+          >
+            Categoría
+          </button>
           {showCategoryDropdown && (
             <div className="dropdown-menu">
               {["Luminarias", "Quejas", "Consultas"].map((category) => (
@@ -91,7 +128,9 @@ const DashList = () => {
                   <input
                     type="checkbox"
                     checked={categoryFilter.includes(category)}
-                    onChange={() => toggleFilter(categoryFilter, setCategoryFilter, category)}
+                    onChange={() =>
+                      toggleFilter(categoryFilter, setCategoryFilter, category)
+                    }
                   />
                   {category}
                 </label>
@@ -102,7 +141,10 @@ const DashList = () => {
 
         {/* Toggle View como menú desplegable */}
         <div className="toggle-view">
-          <button onClick={() => setShowColumnMenu(!showColumnMenu)} className="toggle-button">
+          <button
+            onClick={() => setShowColumnMenu(!showColumnMenu)}
+            className="toggle-button"
+          >
             ⚙️ Toggle View
           </button>
           {showColumnMenu && (

@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="footer-container">
       <div className="footer-content">
         <p className="footer-text">
-          &copy; {new Date().getFullYear()} - Ilustre Municipalidad de Villa Alemana
+          {new Date().getFullYear()} - Antencion Ciudadana Web
         </p>
       </div>
     </footer>

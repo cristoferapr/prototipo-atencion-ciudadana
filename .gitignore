@@ -1,6 +1,16 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Ignorar cachés de Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar migraciones (opcional)
+migrations/
+
 # dependencies
+.env/
+.env
 /node_modules
 /.pnp
 .pnp.js

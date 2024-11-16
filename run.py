@@ -1,8 +1,14 @@
 from flask import Flask, send_from_directory, jsonify, request
 from flask_restful import Api
+from flask_migrate import Migrate
 from api.register import Register
+from api.login import Login
+from api.comment import CommentResource
+from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
-
+from flask_migrate import Migrate
+from api.models import db
+from api.allcomments import CommentListResource
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -11,35 +17,13 @@ api = Api(app)
 # Remove in production. This is for dev (same origin server) only.
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-# Simulación de datos de usuario (solo para propósitos de ejemplo)
-users = {
-    'user': {
-        'username': 'user',
-        'password': 'test',
-        'name': 'Usuario de Prueba',
-        'email': 'usuario@example.com',
-        'phoneNumber': '+56555555555',
-        'address': 'Calle Falsa 123'
-    }
-}
+# Configuración de la base de datos PostgreSQL
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:test@localhost/atencion_ciudadana'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-
-    if username in users and users[username]['password'] == password:
-        user_data = {
-            'username': users[username]['username'],
-            'name': users[username]['name'],
-            'email': users[username]['email'],
-            'phoneNumber': users[username]['phoneNumber'],
-            'address': users[username]['address']
-        }
-        return jsonify(user_data), 200
-    else:
-        return jsonify({'message': 'Usuario o contraseña incorrectos'}), 401
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+MIGRATE = Migrate(app, db, compare_type = True)
+db.init_app(app)
 
 @app.route("/", defaults={'path': ''})
 def test(path):
@@ -47,6 +31,12 @@ def test(path):
 
 # Agregar la ruta para el registro
 api.add_resource(Register, '/api/register')
+
+api.add_resource(Login, '/api/login')
+
+api.add_resource(CommentResource, '/api/comments')
+
+api.add_resource(CommentListResource, '/api/allcomments')
 
 # Ruta para recibir los reclamos enviados desde el frontend
 @app.route('/api/claim', methods=['POST'])
