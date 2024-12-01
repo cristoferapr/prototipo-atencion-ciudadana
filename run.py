@@ -34,6 +34,12 @@ def serve():
 def static_files(path):
     return send_from_directory(app.static_folder, path)
 
+
+# Redirige todas las rutas desconocidas al frontend
+@app.errorhandler(404)
+def not_found(e):
+    return send_from_directory(app.static_folder, "index.html")
+
 # Agregar la ruta para el registro
 api.add_resource(Register, '/api/register')
 
