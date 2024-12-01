@@ -3,6 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       token: null,
       message: null,
+      comments: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -54,6 +55,31 @@ const getState = ({ getStore, getActions, setStore }) => {
         } catch (error) {
           console.error("Error al enviar el comentario:", error);
           alert("Error al enviar el comentario.");
+        }
+      },
+
+      fetchComments: async () => {
+        try {
+          const response = await fetch("http://localhost:5000/api/allcomments");
+          if (!response.ok) throw new Error("Error fetching comments");
+
+          const data = await response.json();
+          const formattedComments = data.data.map((comment) => ({
+            id: comment.id,
+            date: new Date(comment.created_at).toLocaleDateString(),
+            status: "Pendiente",
+            category: comment.category,
+            description: comment.comment,
+            rut: comment.user_rut,
+            latitude: comment.latitude,
+            longitude: comment.longitude,
+            address: comment.address,
+            files: comment.files,
+          }));
+
+          setStore({ comments: formattedComments });
+        } catch (error) {
+          console.error("Error al cargar los comentarios:", error);
         }
       },
 

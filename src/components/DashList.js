@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../css/DashList.css";
-import axios from "axios";
+import { Context } from "../context/AppContext";
 
 const DashList = () => {
-  const [requests, setRequests] = useState([]); // Cambiado de initialRequests
+  const { store, actions } = useContext(Context); // Accede al store y las acciones
   const [descriptionFilter, setDescriptionFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState([]);
@@ -15,30 +15,17 @@ const DashList = () => {
     category: true,
     description: true,
   });
-  const [showColumnMenu, setShowColumnMenu] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
-  // Cargar comentarios desde el backend
+  // Llama a la acción para cargar los comentarios al montar el componente
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/allcomments");
-        const data = await response.json();
-        setRequests(
-          data.data.map((comment) => ({
-            id: comment.id,
-            date: new Date(comment.created_at).toLocaleDateString(),
-            status: "Pendiente",
-            category: comment.category,
-            description: comment.comment,
-          }))
-        );
-      } catch (error) {
-        console.error("Error al cargar los comentarios:", error);
-      }
-    };
-
-    fetchComments();
+    actions.fetchComments();
   }, []);
+
+  // Muestra un mensaje de carga si no hay comentarios
+  if (!store.comments || store.comments.length === 0) {
+    return <p>Cargando comentarios...</p>;
+  }
 
   // Función para alternar visibilidad de columna
   const toggleColumn = (column) => {
@@ -56,7 +43,7 @@ const DashList = () => {
   };
 
   // Filtros aplicados
-  const filteredRequests = requests.filter((request) => {
+  const filteredRequests = store.comments.filter((request) => {
     const matchesDescription = request.description
       .toLowerCase()
       .includes(descriptionFilter.toLowerCase());
@@ -138,30 +125,6 @@ const DashList = () => {
             </div>
           )}
         </div>
-
-        {/* Toggle View como menú desplegable */}
-        <div className="toggle-view">
-          <button
-            onClick={() => setShowColumnMenu(!showColumnMenu)}
-            className="toggle-button"
-          >
-            ⚙️ Toggle View
-          </button>
-          {showColumnMenu && (
-            <div className="column-menu">
-              {Object.keys(columns).map((column) => (
-                <label key={column} className="menu-item">
-                  <input
-                    type="checkbox"
-                    checked={columns[column]}
-                    onChange={() => toggleColumn(column)}
-                  />
-                  {column.charAt(0).toUpperCase() + column.slice(1)}
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
       </div>
 
       {/* Tabla de solicitudes */}
@@ -173,7 +136,11 @@ const DashList = () => {
           {columns.description && <span>Descripción</span>}
         </div>
         {filteredRequests.map((request) => (
-          <div key={request.id} className="table-row">
+          <div
+            key={request.id}
+            className="table-row"
+            onClick={() => setSelectedRequest(request)} // Al hacer clic, abre el modal
+          >
             {columns.date && <span>{request.date}</span>}
             {columns.status && <span className="status">{request.status}</span>}
             {columns.category && <span>{request.category}</span>}
@@ -181,6 +148,37 @@ const DashList = () => {
           </div>
         ))}
       </div>
+
+      {/* Modal */}
+      {selectedRequest && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Detalles del Comentario</h3>
+            <p>
+              <strong>RUT:</strong> {selectedRequest.rut}
+            </p>
+            <p>
+              <strong>Fecha:</strong> {selectedRequest.date}
+            </p>
+            <p>
+              <strong>Estado:</strong> {selectedRequest.status}
+            </p>
+            <p>
+              <strong>Categoría:</strong> {selectedRequest.category}
+            </p>
+            <p>
+              <strong>Descripción:</strong> {selectedRequest.description}
+            </p>
+            <p>
+              <strong>Dirección:</strong> {selectedRequest.address}
+            </p>
+            <p>
+              <strong>Archivos:</strong> {selectedRequest.files?.join(", ")}
+            </p>
+            <button onClick={() => setSelectedRequest(null)}>Cerrar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

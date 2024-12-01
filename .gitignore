@@ -10,6 +10,8 @@ migrations/
 
 # dependencies
 .env/
+venv/
+env/
 .env
 /node_modules
 /.pnp

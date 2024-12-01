@@ -14,6 +14,7 @@ import CommentPage from "./pages/CommentPage";
 import injectContext from "./context/AppContext";
 import RequestsPage from "./components/Userhome";
 import ProtectedRoute from "./components/ProtectedRoute";
+import UserProfile from "./pages/UserProfile";
 
 const Layout = () => {
   return (
@@ -42,6 +43,15 @@ const Layout = () => {
                 element={
                   <ProtectedRoute>
                     <CommentPage />
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route
+                exact
+                path="/perfil"
+                element={
+                  <ProtectedRoute>
+                    <UserProfile />
                   </ProtectedRoute>
                 }
               ></Route>

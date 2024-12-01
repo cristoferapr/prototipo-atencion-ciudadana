@@ -188,6 +188,7 @@ const Home = () => {
               </label>
               <input
                 type="text"
+                placeholder="12.345.678-9"
                 className={`form-control ${
                   isRutValid === null
                     ? ""
