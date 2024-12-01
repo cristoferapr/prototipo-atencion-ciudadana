@@ -30,6 +30,10 @@ db.init_app(app)
 def serve():
     return send_from_directory(app.static_folder, "index.html")
 
+@app.route("/<path:path>")
+def static_files(path):
+    return send_from_directory(app.static_folder, path)
+
 # Agregar la ruta para el registro
 api.add_resource(Register, '/api/register')
 
