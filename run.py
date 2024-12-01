@@ -7,6 +7,7 @@ from api.comment import CommentResource
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from flask_migrate import Migrate
+import os
 from api.models import db
 from api.allcomments import CommentListResource
 
@@ -70,4 +71,5 @@ def receive_claim():
 
 # Running app
 if __name__ == '__main__':
-    app.run(debug=True, host='localhost', port=5000)
+    port = int(os.environ.get("PORT", 5000))  # Usa el puerto de la variable de entorno o 5000 por defecto
+    app.run(debug=True, host='0.0.0.0' , port=port)
