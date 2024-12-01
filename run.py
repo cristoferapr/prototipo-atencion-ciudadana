@@ -10,7 +10,7 @@ from flask_migrate import Migrate
 from api.models import db
 from api.allcomments import CommentListResource
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="build", static_url_path="/")
 cors = CORS(app)
 api = Api(app)
 
@@ -25,9 +25,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type = True)
 db.init_app(app)
 
-@app.route("/", defaults={'path': ''})
-def test(path):
-    return 'Hello World'
+@app.route("/")
+def serve():
+    return send_from_directory(app.static_folder, "index.html")
 
 # Agregar la ruta para el registro
 api.add_resource(Register, '/api/register')
